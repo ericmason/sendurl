@@ -32,6 +32,10 @@ defmodule SendurlWeb.URLLive.Send do
       |> Locations.change_url(Map.put(url_params, "url", ""))
 
     IO.inspect(changeset)
+    
+    url = Map.get(url_params, "url")
+    receiver_id = Map.get(url_params, "receiver_id")
+    SendurlWeb.Endpoint.broadcast_from(self(), "url:#{receiver_id}", "url", url)
 
     {:noreply,
       socket
