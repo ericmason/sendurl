@@ -1,0 +1,13 @@
+<h2>Send a URL</h2>
+
+<.form let={f} for={@changeset} phx-change="validate" phx-submit="send">
+  <%= label f, :receiver_id, "Receiver ID" %>
+  <%= text_input f, :receiver_id, size: 6 %>
+  <%= error_tag f, :receiver_id %>
+
+  <%= label f, :url, "URL" %>
+  <%= text_input f, :url %>
+  <%= error_tag f, :url %>
+
+  <%= submit "Send", phx_disable_with: "Saving..." %>
+</.form>

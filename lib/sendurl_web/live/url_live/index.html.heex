@@ -1,0 +1,16 @@
+<h1>SendURL</h1>
+
+<h2>live_patch</h2>
+<%= live_patch "Receive URLs", to: Routes.url_receive_path(@socket, :receive) %>
+<%= live_patch "Send URLs", to: Routes.url_send_path(@socket, :send) %>
+
+
+<h2>link</h2>
+
+<%= link "Receive URLs", to: Routes.url_receive_path(@socket, :receive) %>
+<%= link "Send URLs", to: Routes.url_send_path(@socket, :send) %>
+
+
+<p>
+Session ID: <%= @id %>
+</p>
