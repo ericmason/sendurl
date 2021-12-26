@@ -12,18 +12,21 @@ if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :sendurl, SendurlWeb.Endpoint, server: true
 end
 
+
 if config_env() == :prod do
   database_url =
-    System.get_env("DATABASE_URL") ||
-      raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """
+    System.get_env("DATABASE_URL") || ""
 
+
+  app_name =
+  System.get_env("FLY_APP_NAME") ||
+    raise "FLY_APP_NAME not available"
+    
   maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
 
   config :sendurl, Sendurl.Repo,
     # ssl: true,
+    server: true,
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6
@@ -44,7 +47,7 @@ if config_env() == :prod do
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :sendurl, SendurlWeb.Endpoint,
-    url: [host: host, port: 443],
+    url: [host: host, scheme: "https", port: 443],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
