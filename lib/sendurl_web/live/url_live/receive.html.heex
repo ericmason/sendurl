@@ -1,2 +1,26 @@
-<h2>Waiting to Receive a URL</h2>
-My ID: <%= @id %>
+<h2><%= @title %></h2>
+<div class="qr-code">
+  <img src={Routes.qr_code_path(@socket, :show, @id)} alt="QR Code" />
+  <span><%= Routes.url_send_url(@socket, :send, @id) %></span>
+</div>
+<div class="block">
+  <%= if @url do %>
+    URL incoming: <%= @url %>
+  <% end %>
+  <p class="big">My Receiver Code: <strong><%= @id %></strong></p>
+
+  <h3>How to Send a URL Here</h3>
+  <ol>
+  <li>Go to the <%= link "Send a URL", to: Routes.url_send_path(@socket, :send) %>
+  page on another device.
+  </li>
+  <li> Enter the receiver code <strong><%= @id %></strong> </li>
+  <li> Enter the URL</li>
+  <li> Press Send</li>
+  <li> This page will go to the URL you entered.</li>
+  </ol>
+
+  <p>
+  <%= live_patch "Send a URL", to: Routes.url_send_path(@socket, :send), class: "big" %>
+  </p>
+</div>

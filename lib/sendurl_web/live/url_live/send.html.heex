@@ -2,7 +2,7 @@
 
 <.form let={f} for={@changeset} phx-change="validate" phx-submit="send">
   <%= label f, :receiver_id, "Receiver ID" %>
-  <%= text_input f, :receiver_id, size: 6 %>
+  <%= text_input f, :receiver_id, class: "input-receiver-id" %>
   <%= error_tag f, :receiver_id %>
 
   <%= label f, :url, "URL" %>

@@ -19,9 +19,12 @@ defmodule SendurlWeb.Router do
   scope "/", SendurlWeb do
     pipe_through :browser
 
-    live "/", URLLive.Index, :index
+    live "/", URLLive.Receive, :receive
     live "/send", URLLive.Send, :send
-    live "/receive", URLLive.Receive, :receive
+    live "/send/:id", URLLive.Send, :send
+    get "/qr_code/:id", QrCodeController, :show
+
+    import Phoenix.Controller
   end
 
   # Other scopes may use custom stacks.

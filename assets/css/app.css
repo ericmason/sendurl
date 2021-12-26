@@ -118,3 +118,32 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+
+.big {
+  font-size: 1.5em;
+}
+
+input.input-receiver-id {
+  width: 6em;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.qr-code {
+  width: 300px;
+  float: right;
+  text-align: center;
+}
+.qr-code span {
+}
+
+@media only screen and (max-width: 640px) {
+  .qr-code {
+    width: 100%;
+    float: none;
+    text-align: center;
+  }
+}
