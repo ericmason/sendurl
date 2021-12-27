@@ -1,5 +1,9 @@
 # Sendurl
 
+Send URLs from one browser to another. Intended for places where it's hard to type in URLs, like TVs.
+
+## Running
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
