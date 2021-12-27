@@ -2,7 +2,11 @@
 
 Send URLs from one browser to another. Intended for places where it's hard to type in URLs, like TVs.
 
+## Using
+### Receive a URL
 ![Receive a URL](docs/receive.png)
+
+### Send a URL
 ![Send a URL](docs/send.png)
 
 ## Running
