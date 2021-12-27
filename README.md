@@ -1,6 +1,9 @@
-# Sendurl
+# SendURL
 
 Send URLs from one browser to another. Intended for places where it's hard to type in URLs, like TVs.
+
+![Receive a URL](docs/receive.png)
+![Send a URL](docs/send.png)
 
 ## Running
 
