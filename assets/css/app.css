@@ -131,7 +131,7 @@ input.input-receiver-id {
 .input-with-clear {
   display: inline-flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.1em;
 }
 
 .input-with-clear input {
