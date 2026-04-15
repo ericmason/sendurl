@@ -26,13 +26,38 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => legacyCopy(text))
+  }
+  return Promise.resolve(legacyCopy(text))
+}
+
+function legacyCopy(text) {
+  const ta = document.createElement("textarea")
+  ta.value = text
+  ta.setAttribute("readonly", "")
+  ta.style.position = "fixed"
+  ta.style.top = "0"
+  ta.style.left = "0"
+  ta.style.opacity = "0"
+  document.body.appendChild(ta)
+  ta.focus()
+  ta.select()
+  ta.setSelectionRange(0, text.length)
+  let ok = false
+  try { ok = document.execCommand("copy") } catch (_) { ok = false }
+  document.body.removeChild(ta)
+  return ok
+}
+
 let Hooks = {}
 Hooks.Copy = {
   mounted() {
     this.el.addEventListener("click", () => {
-      navigator.clipboard.writeText(this.el.dataset.text).then(() => {
+      Promise.resolve(copyText(this.el.dataset.text)).then((ok) => {
         const original = this.el.textContent
-        this.el.textContent = "Copied!"
+        this.el.textContent = ok ? "Copied!" : "Copy failed"
         setTimeout(() => { this.el.textContent = original }, 1500)
       })
     })
