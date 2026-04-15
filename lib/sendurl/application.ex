@@ -11,8 +11,7 @@ defmodule Sendurl.Application do
       SendurlWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:sendurl, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Sendurl.PubSub},
-      # Start a worker by calling: Sendurl.Worker.start_link(arg)
-      # {Sendurl.Worker, arg},
+      Sendurl.Turn,
       # Start to serve requests, typically the last entry
       SendurlWeb.Endpoint
     ]

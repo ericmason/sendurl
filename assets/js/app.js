@@ -60,10 +60,22 @@ function upcaseInput(el) {
   }
 }
 
-const ICE_SERVERS = [{ urls: "stun:stun.l.google.com:19302" }]
+const DEFAULT_ICE_SERVERS = [{ urls: "stun:stun.cloudflare.com:3478" }]
 const CHUNK_SIZE = 16 * 1024
 const BUFFERED_LOW = 256 * 1024
 const BUFFERED_HIGH = 1024 * 1024
+
+function readIceServers(el) {
+  const raw = el.dataset.iceServers
+  if (!raw) return DEFAULT_ICE_SERVERS
+  try {
+    const parsed = JSON.parse(raw)
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed
+  } catch (e) {
+    console.warn("Failed to parse iceServers", e)
+  }
+  return DEFAULT_ICE_SERVERS
+}
 
 function humanSize(bytes) {
   if (bytes < 1024) return `${bytes} B`
@@ -158,6 +170,7 @@ const Hooks = {
       this.dc = null
       this.receiverId = null
       this.queuedCandidates = []
+      this.iceServers = readIceServers(this.el)
 
       this.handleEvent("rtc_signal", (signal) => this.onSignal(signal))
 
@@ -184,7 +197,7 @@ const Hooks = {
 
       this.setStatus(`Connecting to ${rid}…`)
 
-      this.pc = new RTCPeerConnection({ iceServers: ICE_SERVERS })
+      this.pc = new RTCPeerConnection({ iceServers: this.iceServers })
       this.pc.onicecandidate = (e) => {
         if (e.candidate) {
           this.sendSignal({ type: "ice", candidate: e.candidate.toJSON() })
@@ -334,6 +347,7 @@ const Hooks = {
       this.dc = null
       this.queuedCandidates = []
       this.current = null
+      this.iceServers = readIceServers(this.el)
       this.statusEl = document.getElementById("receive-file-status")
       this.listEl = document.getElementById("receive-file-list")
       this.progressEl = document.getElementById("receive-progress")
@@ -401,7 +415,7 @@ const Hooks = {
       if (this.pc) {
         try { this.pc.close() } catch (_) {}
       }
-      this.pc = new RTCPeerConnection({ iceServers: ICE_SERVERS })
+      this.pc = new RTCPeerConnection({ iceServers: this.iceServers })
       this.pc.onicecandidate = (e) => {
         if (e.candidate) {
           this.sendSignal({ type: "ice", candidate: e.candidate.toJSON() })

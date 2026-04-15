@@ -10,7 +10,8 @@ defmodule SendurlWeb.SendLive do
     {:ok,
      socket
      |> assign(:url, %URL{})
-     |> assign(:subscribed_topic, nil)}
+     |> assign(:subscribed_topic, nil)
+     |> assign(:ice_servers_json, Jason.encode!(Sendurl.Turn.ice_servers()))}
   end
 
   @impl true
@@ -211,6 +212,7 @@ defmodule SendurlWeb.SendLive do
             data-file-input="send-file-input"
             data-status="send-file-status"
             data-progress="send-file-progress"
+            data-ice-servers={@ice_servers_json}
           >
             Send File
           </button>

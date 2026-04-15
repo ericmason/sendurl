@@ -16,6 +16,7 @@ defmodule SendurlWeb.ReceiveLive do
      |> assign(:text, nil)
      |> assign(:file_count, 0)
      |> assign(:receiving?, false)
+     |> assign(:ice_servers_json, Jason.encode!(Sendurl.Turn.ice_servers()))
      |> assign(:title, "Waiting to Receive")}
   end
 
@@ -98,6 +99,7 @@ defmodule SendurlWeb.ReceiveLive do
         id="receive-file-area"
         phx-hook="WebRTCReceiver"
         phx-update="ignore"
+        data-ice-servers={@ice_servers_json}
         class="received-files space-y-4"
       >
         <div

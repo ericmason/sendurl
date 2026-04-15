@@ -63,7 +63,8 @@ defmodule Sendurl.MixProject do
       {:eqrcode, "~> 0.2"},
       {:plug_canonical_host, "~> 2.0"},
       {:ecto, "~> 3.12"},
-      {:phoenix_ecto, "~> 4.6"}
+      {:phoenix_ecto, "~> 4.6"},
+      {:req, "~> 0.5"}
     ]
   end
 
