@@ -7,17 +7,24 @@
   <%= if @url do %>
     URL incoming: <%= @url %>
   <% end %>
+  <%= if @text do %>
+    <div class="received-text">
+      <h3>Received Text</h3>
+      <pre><%= @text %></pre>
+      <button type="button" id="copy-text" phx-hook="Copy" data-text={@text}>Copy</button>
+    </div>
+  <% end %>
   <p class="big">My Receiver Code: <strong><%= @id %></strong></p>
 
-  <h3>How to Send a URL Here</h3>
+  <h3>How to Send a URL or Text Here</h3>
   <ol>
   <li>Go to the <%= link "Send a URL", to: Routes.url_send_path(@socket, :send) %>
   page on another device.
   </li>
   <li> Enter the receiver code <strong><%= @id %></strong> </li>
-  <li> Enter the URL</li>
+  <li> Enter a URL or any text</li>
   <li> Press Send</li>
-  <li> This page will go to the URL you entered.</li>
+  <li> If you sent a URL, this page will go there. Otherwise the text appears with a Copy button.</li>
   </ol>
 
   <p>

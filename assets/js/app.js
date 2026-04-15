@@ -26,8 +26,21 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+let Hooks = {}
+Hooks.Copy = {
+  mounted() {
+    this.el.addEventListener("click", () => {
+      navigator.clipboard.writeText(this.el.dataset.text).then(() => {
+        const original = this.el.textContent
+        this.el.textContent = "Copied!"
+        setTimeout(() => { this.el.textContent = original }, 1500)
+      })
+    })
+  }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
@@ -54,6 +67,7 @@ function makeUpperCase(e) {
 }
 
 var receiverIdField = document.getElementById("url_receiver_id");
-receiverIdField.addEventListener("keyup", makeUpperCase);
-receiverIdField.addEventListener("change", makeUpperCase);
-// window.addEventListener("keydown", makeUpperCase);
+if (receiverIdField) {
+  receiverIdField.addEventListener("keyup", makeUpperCase);
+  receiverIdField.addEventListener("change", makeUpperCase);
+}

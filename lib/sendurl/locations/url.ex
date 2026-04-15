@@ -15,15 +15,20 @@ defmodule Sendurl.Locations.URL do
     url
     |> cast(attrs, [:url, :receiver_id])
     |> fix_url_changeset
-    |> validate_format(:url, ~r/\Ahttps?:\/\/[^\s]+\z/)
     |> validate_format(:receiver_id, ~r/\A[A-Z0-9]{6}\z/)
     |> validate_required([:url, :receiver_id])
   end
 
+  def url?(nil), do: false
+  def url?(value) do
+    String.match?(value, ~r/\Ahttps?:\/\/\S+\z/) or
+      String.match?(value, ~r/\A[\w-]+(\.[\w-]+)+(\/\S*)?\z/)
+  end
+
   defp fix_url_changeset(changeset) do
-    url = fix_url(get_field(changeset, :url, ""))
+    url = normalize_url(get_field(changeset, :url, ""))
     receiver_id = fix_receiver_id(get_field(changeset, :receiver_id, ""))
-    changeset 
+    changeset
     |> put_change(:url, url)
     |> put_change(:receiver_id, receiver_id)
   end
@@ -33,12 +38,12 @@ defmodule Sendurl.Locations.URL do
     String.upcase(receiver_id)
   end
 
-  defp fix_url(nil) do nil end
-  defp fix_url(url) do
-    if String.match?(url, ~r/\A(?!https?:\/\/)\w+/) do
-      "https://#{url}"
+  defp normalize_url(nil), do: nil
+  defp normalize_url(value) do
+    if url?(value) and not String.match?(value, ~r/\Ahttps?:\/\//) do
+      "https://#{value}"
     else
-      url
+      value
     end
   end
 end

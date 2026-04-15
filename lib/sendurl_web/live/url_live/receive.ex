@@ -8,29 +8,44 @@ defmodule SendurlWeb.URLLive.Receive do
     
     id = Map.get(session, "id")
     SendurlWeb.Endpoint.subscribe("url:#{id}")
-    {:ok, 
-      socket 
+    {:ok,
+      socket
       |> assign(:id, id)
       |> assign(:url, nil)
-      |> assign(:title, "Waiting to Receive a URL")}
+      |> assign(:text, nil)
+      |> assign(:title, "Waiting to Receive a URL or Text")}
   end
 
-  def handle_info(%{topic: topic, payload: url, event: "url"}, socket) do
-    IO.puts("Received broadcast for #{url}")
-    
-    {:noreply, 
-      socket 
+  def handle_info(%{payload: url, event: "url"}, socket) do
+    {:noreply,
+      socket
       |> assign(:title, "Going to #{url}")
       |> redirect(external: url)
     }
   end
 
-  def handle_info(%{topic: topic, payload: url, event: "updated"}, socket) do
-    IO.puts("Received update broadcast for #{url}")
-    
-    {:noreply, 
-      socket 
-      |> assign(:url, url)
+  def handle_info(%{payload: text, event: "text"}, socket) do
+    {:noreply,
+      socket
+      |> assign(:title, "Received Text")
+      |> assign(:text, text)
+      |> assign(:url, nil)
+    }
+  end
+
+  def handle_info(%{payload: value, event: "updated"}, socket) do
+    {:noreply,
+      socket
+      |> assign(:url, value)
+      |> assign(:text, nil)
+    }
+  end
+
+  def handle_info(%{payload: value, event: "text_updated"}, socket) do
+    {:noreply,
+      socket
+      |> assign(:text, value)
+      |> assign(:url, nil)
     }
   end
 

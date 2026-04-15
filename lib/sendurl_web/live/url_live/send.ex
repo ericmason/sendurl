@@ -27,8 +27,9 @@ defmodule SendurlWeb.URLLive.Send do
       |> Map.put(:action, :validate)
 
     receiver_id = get_field(changeset, :receiver_id)
-    url = get_field(changeset, :url)
-    SendurlWeb.Endpoint.broadcast_from(self(), "url:#{receiver_id}", "updated", url)
+    value = get_field(changeset, :url)
+    event = if Locations.URL.url?(value), do: "updated", else: "text_updated"
+    SendurlWeb.Endpoint.broadcast_from(self(), "url:#{receiver_id}", event, value)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
@@ -37,15 +38,19 @@ defmodule SendurlWeb.URLLive.Send do
     changeset =
       socket.assigns.url
       |> Locations.change_url(url_params)
-    
-    url = get_field(changeset, :url)
-    receiver_id = Map.get(url_params, "receiver_id")
-    SendurlWeb.Endpoint.broadcast_from(self(), "url:#{receiver_id}", "url", url)
+
+    value = get_field(changeset, :url)
+    receiver_id = get_field(changeset, :receiver_id)
+
+    {event, kind} =
+      if Locations.URL.url?(value), do: {"url", "URL"}, else: {"text", "Text"}
+
+    SendurlWeb.Endpoint.broadcast_from(self(), "url:#{receiver_id}", event, value)
 
     {:noreply,
       socket
       |> assign(changeset: changeset)
-      |> put_flash(:info, "#{url_params["url"]} sent to #{url_params["receiver_id"]}!")}
+      |> put_flash(:info, "#{kind} sent to #{receiver_id}!")}
   end
 
 end
