@@ -18,7 +18,7 @@
 
   <h3>How to Send a URL or Text Here</h3>
   <ol>
-  <li>Go to the <%= link "Send a URL", to: Routes.url_send_path(@socket, :send) %>
+  <li>Go to the <%= link "Send a URL or Text", to: Routes.url_send_path(@socket, :send) %>
   page on another device.
   </li>
   <li> Enter the receiver code <strong><%= @id %></strong> </li>
@@ -28,6 +28,6 @@
   </ol>
 
   <p>
-  <%= live_patch "Send a URL", to: Routes.url_send_path(@socket, :send), class: "big" %>
+  <%= live_patch "Send a URL or Text", to: Routes.url_send_path(@socket, :send), class: "big" %>
   </p>
 </div>
