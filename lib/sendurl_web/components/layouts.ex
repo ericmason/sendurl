@@ -41,7 +41,6 @@ defmodule SendurlWeb.Layouts do
         <nav class="flex gap-4">
           <.link navigate={~p"/"} class="link">Receive</.link>
           <.link navigate={~p"/send"} class="link">Send</.link>
-          <.theme_toggle />
         </nav>
       </div>
       <div class="mx-auto max-w-2xl mt-2 text-sm opacity-70">

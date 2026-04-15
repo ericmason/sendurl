@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flyctl auth *)",
+      "Bash(dig +short send2.us A)",
+      "Bash(dig +short send2.us AAAA)",
+      "Bash(dig +short www.send2.us)",
+      "Bash(flyctl status *)",
+      "Bash(flyctl releases *)",
+      "Bash(flyctl ssh *)",
+      "Bash(node_modules/.bin/esbuild js/app.js --bundle --outfile=/tmp/sendurl-build/app.js)",
+      "Bash(shasum -a 256 /tmp/sendurl-build/app.js)",
+      "Bash(flyctl deploy *)",
+      "Bash(flyctl version *)",
+      "Bash(flyctl builder *)",
+      "Bash(docker context *)",
+      "Bash(DOCKER_HOST=unix:///Users/eric/.docker/run/docker.sock flyctl deploy -a sendurl2 --local-only)",
+      "Bash(flyctl apps *)"
+    ]
+  }
+}

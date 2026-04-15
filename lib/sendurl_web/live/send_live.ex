@@ -88,7 +88,11 @@ defmodule SendurlWeb.SendLive do
               &times;
             </button>
           </div>
-          <p :for={{msg, opts} <- @form[:receiver_id].errors} class="text-error text-sm mt-1">
+          <p
+            :for={{msg, opts} <- @form[:receiver_id].errors}
+            :if={used_input?(@form[:receiver_id])}
+            class="text-error text-sm mt-1"
+          >
             {translate_error({msg, opts})}
           </p>
         </div>
@@ -102,7 +106,11 @@ defmodule SendurlWeb.SendLive do
             value={Phoenix.HTML.Form.input_value(@form, :url)}
             class="input input-bordered w-full"
           />
-          <p :for={{msg, opts} <- @form[:url].errors} class="text-error text-sm mt-1">
+          <p
+            :for={{msg, opts} <- @form[:url].errors}
+            :if={used_input?(@form[:url])}
+            class="text-error text-sm mt-1"
+          >
             {translate_error({msg, opts})}
           </p>
         </div>
