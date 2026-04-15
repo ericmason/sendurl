@@ -19,21 +19,19 @@ defmodule SendurlWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint SendurlWeb.Endpoint
+
+      use SendurlWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import SendurlWeb.ConnCase
-
-      alias SendurlWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint SendurlWeb.Endpoint
     end
   end
 
-  setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Sendurl.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+  setup _tags do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

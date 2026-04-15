@@ -1,1 +1,0 @@
-call "%~dp0\sendurl" eval Sendurl.Release.migrate

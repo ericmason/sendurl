@@ -8,16 +8,13 @@ defmodule Sendurl.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      # Sendurl.Repo,
-      # Start the Telemetry supervisor
       SendurlWeb.Telemetry,
-      # Start the PubSub system
+      {DNSCluster, query: Application.get_env(:sendurl, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Sendurl.PubSub},
-      # Start the Endpoint (http/https)
-      SendurlWeb.Endpoint
       # Start a worker by calling: Sendurl.Worker.start_link(arg)
-      # {Sendurl.Worker, arg}
+      # {Sendurl.Worker, arg},
+      # Start to serve requests, typically the last entry
+      SendurlWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
