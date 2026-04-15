@@ -31,6 +31,8 @@ defmodule SendurlWeb.Layouts do
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
 
+  attr :max_width, :string, default: "max-w-2xl"
+
   slot :inner_block, required: true
 
   def app(assigns) do
@@ -44,13 +46,13 @@ defmodule SendurlWeb.Layouts do
         </nav>
       </div>
       <div class="mx-auto max-w-2xl mt-2 text-sm opacity-70">
-        Send URLs or text between browsers instantly.
+        Send URLs, text, files, and pictures between browsers instantly.
         Great for TVs and anything without a keyboard.
       </div>
     </header>
 
     <main class="px-4 py-8 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
+      <div class={["mx-auto", @max_width, "space-y-4"]}>
         {render_slot(@inner_block)}
       </div>
     </main>

@@ -4,8 +4,8 @@ defmodule Sendurl.URL do
 
   @primary_key false
   embedded_schema do
-    field :receiver_id, :string
-    field :url, :string
+    field(:receiver_id, :string)
+    field(:url, :string)
   end
 
   def changeset(url, attrs) do
