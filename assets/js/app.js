@@ -81,6 +81,27 @@ Hooks.RememberInput = {
     }
     this.el.addEventListener("change", save)
     this.el.addEventListener("blur", save)
+
+    this.el.addEventListener("focus", () => {
+      if (this.el.value) {
+        setTimeout(() => this.el.select(), 0)
+      }
+    })
+  }
+}
+Hooks.ClearInput = {
+  mounted() {
+    this.el.addEventListener("click", () => {
+      const target = document.getElementById(this.el.dataset.target)
+      if (!target) return
+      target.value = ""
+      target.dispatchEvent(new Event("input", { bubbles: true }))
+      target.focus()
+      const key = this.el.dataset.clearKey
+      if (key) {
+        try { localStorage.removeItem(key) } catch (_) {}
+      }
+    })
   }
 }
 Hooks.Copy = {

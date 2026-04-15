@@ -128,6 +128,27 @@ input.input-receiver-id {
   width: 6em;
 }
 
+.input-with-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+button.clear-button {
+  background: transparent;
+  border: none;
+  padding: 0 0.35em;
+  margin: 0;
+  font-size: 1.25em;
+  line-height: 1;
+  color: #888;
+  cursor: pointer;
+}
+
+button.clear-button:hover {
+  color: #333;
+}
+
 h1 {
   font-weight: bold;
 }

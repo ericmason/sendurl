@@ -2,11 +2,20 @@
 
 <.form let={f} for={@changeset} phx-change="validate" phx-submit="send">
   <%= label f, :receiver_id, "Receiver ID" %>
-  <%= text_input f, :receiver_id,
-        class: "input-receiver-id",
-        phx_hook: "RememberInput",
-        data_remember_key: "sendurl:receiver_id",
-        data_remember_max_age: "3600000" %>
+  <span class="input-with-clear">
+    <%= text_input f, :receiver_id,
+          class: "input-receiver-id",
+          phx_hook: "RememberInput",
+          data_remember_key: "sendurl:receiver_id",
+          data_remember_max_age: "3600000" %>
+    <button type="button"
+            id="clear-receiver-id"
+            class="clear-button"
+            aria-label="Clear receiver ID"
+            phx-hook="ClearInput"
+            data-target="url_receiver_id"
+            data-clear-key="sendurl:receiver_id">&times;</button>
+  </span>
   <%= error_tag f, :receiver_id %>
 
   <%= label f, :url, "URL or Text" %>
