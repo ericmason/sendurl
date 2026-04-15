@@ -49,7 +49,8 @@ defmodule Sendurl.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:eqrcode, "~> 0.1.10"}
+      {:eqrcode, "~> 0.1.10"},
+      {:plug_canonical_host, "~> 2.0"}
     ]
   end
 

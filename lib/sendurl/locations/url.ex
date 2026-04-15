@@ -1,6 +1,7 @@
 defmodule Sendurl.Locations.URL do
   use Ecto.Schema
   import Ecto.Changeset
+  require Logger
 
   schema "urls" do
     field :receiver_id, :string
@@ -21,8 +22,15 @@ defmodule Sendurl.Locations.URL do
 
   defp fix_url_changeset(changeset) do
     url = fix_url(get_field(changeset, :url, ""))
+    receiver_id = fix_receiver_id(get_field(changeset, :receiver_id, ""))
     changeset 
     |> put_change(:url, url)
+    |> put_change(:receiver_id, receiver_id)
+  end
+
+  defp fix_receiver_id(nil) do nil end
+  defp fix_receiver_id(receiver_id) do
+    String.upcase(receiver_id)
   end
 
   defp fix_url(nil) do nil end

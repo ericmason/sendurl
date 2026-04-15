@@ -43,3 +43,17 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+
+// Update the contents of #url_receiver_id to upper case on keyup
+function makeUpperCase(e) {
+  var start = e.target.selectionStart;
+  var end = e.target.selectionEnd;
+  e.target.value = e.target.value.toUpperCase();
+  e.target.selectionStart = start;
+  e.target.selectionEnd = end;
+}
+
+var receiverIdField = document.getElementById("url_receiver_id");
+receiverIdField.addEventListener("keyup", makeUpperCase);
+receiverIdField.addEventListener("change", makeUpperCase);
+// window.addEventListener("keydown", makeUpperCase);
