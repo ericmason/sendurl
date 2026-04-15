@@ -52,10 +52,23 @@ function legacyCopy(text) {
 }
 
 let Hooks = {}
+function upcaseInput(el) {
+  const start = el.selectionStart
+  const end = el.selectionEnd
+  const upper = el.value.toUpperCase()
+  if (el.value !== upper) {
+    el.value = upper
+    try { el.setSelectionRange(start, end) } catch (_) {}
+  }
+}
+
 Hooks.RememberInput = {
   mounted() {
     const key = this.el.dataset.rememberKey || `remember:${this.el.id}`
     const maxAge = parseInt(this.el.dataset.rememberMaxAge || "3600000", 10)
+    const upcase = this.el.dataset.upcase === "true"
+
+    if (upcase) upcaseInput(this.el)
 
     if (!this.el.value) {
       try {
@@ -81,6 +94,10 @@ Hooks.RememberInput = {
     }
     this.el.addEventListener("change", save)
     this.el.addEventListener("blur", save)
+
+    if (upcase) {
+      this.el.addEventListener("input", () => upcaseInput(this.el))
+    }
 
     this.el.addEventListener("focus", () => {
       if (this.el.value) {
@@ -132,19 +149,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
-
-// Update the contents of #url_receiver_id to upper case on keyup
-function makeUpperCase(e) {
-  var start = e.target.selectionStart;
-  var end = e.target.selectionEnd;
-  e.target.value = e.target.value.toUpperCase();
-  e.target.selectionStart = start;
-  e.target.selectionEnd = end;
-}
-
-var receiverIdField = document.getElementById("url_receiver_id");
-if (receiverIdField) {
-  receiverIdField.addEventListener("keyup", makeUpperCase);
-  receiverIdField.addEventListener("change", makeUpperCase);
-}

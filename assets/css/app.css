@@ -131,18 +131,27 @@ input.input-receiver-id {
 .input-with-clear {
   display: inline-flex;
   align-items: center;
-  gap: 0.25em;
+  gap: 0.5em;
+}
+
+.input-with-clear input {
+  margin-bottom: 0;
 }
 
 button.clear-button {
   background: transparent;
   border: none;
-  padding: 0 0.35em;
+  padding: 0;
   margin: 0;
-  font-size: 1.25em;
+  width: 1.75em;
+  height: 1.75em;
+  font-size: 1.5em;
   line-height: 1;
   color: #888;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button.clear-button:hover {
