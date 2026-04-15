@@ -52,6 +52,37 @@ function legacyCopy(text) {
 }
 
 let Hooks = {}
+Hooks.RememberInput = {
+  mounted() {
+    const key = this.el.dataset.rememberKey || `remember:${this.el.id}`
+    const maxAge = parseInt(this.el.dataset.rememberMaxAge || "3600000", 10)
+
+    if (!this.el.value) {
+      try {
+        const raw = localStorage.getItem(key)
+        if (raw) {
+          const { value, ts } = JSON.parse(raw)
+          if (value && Date.now() - ts < maxAge) {
+            this.el.value = value
+            this.el.dispatchEvent(new Event("input", { bubbles: true }))
+          } else {
+            localStorage.removeItem(key)
+          }
+        }
+      } catch (_) {}
+    }
+
+    const save = () => {
+      if (this.el.value) {
+        try {
+          localStorage.setItem(key, JSON.stringify({ value: this.el.value, ts: Date.now() }))
+        } catch (_) {}
+      }
+    }
+    this.el.addEventListener("change", save)
+    this.el.addEventListener("blur", save)
+  }
+}
 Hooks.Copy = {
   mounted() {
     this.el.addEventListener("click", () => {

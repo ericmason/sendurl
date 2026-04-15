@@ -2,7 +2,11 @@
 
 <.form let={f} for={@changeset} phx-change="validate" phx-submit="send">
   <%= label f, :receiver_id, "Receiver ID" %>
-  <%= text_input f, :receiver_id, class: "input-receiver-id" %>
+  <%= text_input f, :receiver_id,
+        class: "input-receiver-id",
+        phx_hook: "RememberInput",
+        data_remember_key: "sendurl:receiver_id",
+        data_remember_max_age: "3600000" %>
   <%= error_tag f, :receiver_id %>
 
   <%= label f, :url, "URL or Text" %>
